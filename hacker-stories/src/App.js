@@ -36,7 +36,7 @@ const App = () => {
 }
 
 const List = () => {
-  return list.map(function(item) {
+  return list.map(item => {
     return (
       <div key={item.objectID}>
         <span>
@@ -48,8 +48,8 @@ const List = () => {
         <br />
         <br />
       </div>
-    )
-  })
-}
+    );
+  });
+};
 
 export default App;
