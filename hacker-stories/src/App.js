@@ -35,9 +35,8 @@ const App = () => {
   );
 }
 
-const List = () => {
-  return list.map(item => {
-    return (
+const List = () => 
+  list.map(item => (
       <div key={item.objectID}>
         <span>
           <a target="_blank" href={item.url}>{item.title}</a>
@@ -48,8 +47,6 @@ const List = () => {
         <br />
         <br />
       </div>
-    );
-  });
-};
+  ));
 
 export default App;
