@@ -19,7 +19,7 @@ const list = [
   },
 ];
 
-function App() {
+const App = () => {
   return (
     <div>
       <h1>My Hacker Stories</h1>
@@ -30,11 +30,12 @@ function App() {
       <hr/>
 
       <List />
+
     </div>
   );
 }
 
-function List() {
+const List = () => {
   return list.map(function(item) {
     return (
       <div key={item.objectID}>
@@ -44,6 +45,7 @@ function List() {
         <br /><span>{item.author} </span>
         <br /><span>Comments: {item.num_comments} </span>
         <br /><span>Points: {item.points} </span>
+        <br />
         <br />
       </div>
     )
