@@ -17,3 +17,12 @@ Steps:
 Update npm using:
 
     npm install -g npm@latest
+
+
+Create React App using:
+
+    npx create-react-app hacker-stories
+
+
+
+    
