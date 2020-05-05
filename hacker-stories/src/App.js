@@ -60,19 +60,18 @@ const Search = ({search, onSearch }) => (
     </div>
   );
 
-
-const List = props => 
-  props.list.map(item => (
-      <div key={item.objectID}>
+    const List = ({ list }) =>
+      list.map(item => <Item key={item.objectID} item={item} />);
+    const Item = ({ item }) => (
+      <div>
         <span>
-          <a target="_blank" rel="noopener noreferrer" href={item.url}>{item.title}</a>
+          <a href={item.url}>{item.title}</a>
         </span>
-        <br /><span>{item.author} </span>
-        <br /><span>Comments: {item.num_comments} </span>
-        <br /><span>Points: {item.points} </span>
-        <br />
-        <br />
+        <span>{item.author}</span>
+        <span>{item.num_comments}</span>
+        <span>{item.points}</span>
       </div>
-  ));
+);
+  
 
 export default App;
