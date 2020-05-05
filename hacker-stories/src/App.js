@@ -47,30 +47,19 @@ const App = () => {
   );
 };
 
-const Search = props => {
-  const [searchTerm, setSearchTerm] = React.useState('React');
+const Search = ({search, onSearch }) => (
 
-  const handleChange = event => {
-    setSearchTerm(event.target.value);
-
-    // B - Calls back to the place it was introduced (C)
-    props.onSearch(event);
-  };
-
-  return (
     <div>
       <label htmlFor="search">Search: </label>
       <input 
         id="search" 
         type="text"
-        value={props.search}
-        onChange={props.onSearch} />
-      <p>
-        Searching for: <strong>{searchTerm}</strong>
-      </p>
+        value={search}
+        onChange={onSearch} 
+      />
     </div>
-  )
-}
+  );
+
 
 const List = props => 
   props.list.map(item => (
