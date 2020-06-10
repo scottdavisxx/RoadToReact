@@ -1,4 +1,4 @@
-3/29/2020 Left off on page 61 of 226. P 51 
+6/9/2020 Left off on page 77 of 226.
 
 Installed nvm to keep node up to date. 
 
