@@ -1,7 +1,18 @@
 import React from 'react';
 
-const App = () => {
+const useSemiPersistentState = (key, initialState) => {
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initialState
+  );
 
+  React.useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+
+  return [value, setValue];
+};
+
+const App = () => {
   const stories = [
     {
       title: 'React',
@@ -21,20 +32,13 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState(
-    localStorage.getItem('search') || 'React'
+  const [searchTerm, setSearchTerm] = useSemiPersistentState(
+    'search', 
+    'React'
   );
 
-  React.useEffect(() => {
-    localStorage.setItem('search', searchTerm);
-  }, [searchTerm]);
-
-  // A - Callback function is introduced
   const handleSearch = event => {
-    // C - 
     setSearchTerm(event.target.value);
-
-
   };
 
   const searchedStories = stories.filter(story => 
@@ -45,8 +49,14 @@ const App = () => {
     <div>
       <h1>My Hacker Stories</h1>
 
-      <Search search={searchTerm} onSearch={handleSearch} />
-
+      <InputWithLabel
+        id="search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      >
+        <strong>Search: </strong>
+      </InputWithLabel>
+      
       <hr/>
 
       <List list={searchedStories} />
@@ -55,17 +65,22 @@ const App = () => {
   );
 };
 
-const Search = ({search, onSearch }) => (
-
-    <div>
-      <label htmlFor="search">Search: </label>
+const InputWithLabel = ({
+  id,
+  value, 
+  type = 'text',
+  onInputChange,
+  children }) => (
+    <>
+      <label htmlFor={id}>{children}</label>
+      &nbsp;
       <input 
-        id="search" 
-        type="text"
-        value={search}
-        onChange={onSearch} 
+        id={id} 
+        type={type}
+        value={value}
+        onChange={onInputChange} 
       />
-    </div>
+    </>
   );
 
 
