@@ -1,16 +1,5 @@
 import React from 'react';
 
-const initialStories = [
-  {
-    title: 'React',
-    ...
-  },
-  {
-    title: 'Redux',
-    ...
-  },
-];
-
 const useSemiPersistentState = (key, initialState) => {
   const [value, setValue] = React.useState(
     localStorage.getItem(key) || initialState
@@ -35,7 +24,7 @@ const App = () => {
     },
     {
       title: 'Redux',
-      url: 'https://redux.js.org',
+      url: 'https://redux.js.org/',
       author: 'Dan Abramov, Andrew Clark',
       num_comments: 2,
       points: 5,
@@ -44,18 +33,16 @@ const App = () => {
   ];
 
   const [searchTerm, setSearchTerm] = useSemiPersistentState(
-    'search', 
+    'search',
     'React'
   );
-
-  const [stories, setStories] = React.useState(initialStories);
 
   const handleSearch = event => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.filter(story => 
-     story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const searchedStories = stories.filter(story =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -68,67 +55,59 @@ const App = () => {
         isFocused
         onInputChange={handleSearch}
       >
-        <strong>Search: </strong>
+        <strong>Search:</strong>
       </InputWithLabel>
 
-      <hr/>
+      <hr />
 
       <List list={searchedStories} />
-
     </div>
   );
 };
 
 const InputWithLabel = ({
   id,
-  value, 
+  value,
   type = 'text',
   onInputChange,
   isFocused,
   children,
 }) => {
-    // A
-    const inputRef = React.useRef();
+  const inputRef = React.useRef();
 
-    // C
-    React.useEffect(()=> {
-      if(isFocused && inputRef.current) {
-        // D
-        inputRef.current.focus();
-      }
-    }, [isFocused]);
+  React.useEffect(() => {
+    if (isFocused) {
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
 
-
-    return (
+  return (
     <>
       <label htmlFor={id}>{children}</label>
       &nbsp;
-      {/* B */}
-      <input 
+      <input
         ref={inputRef}
-        id={id} 
+        id={id}
         type={type}
         value={value}
-        autoFocus={isFocused}
-        onChange={onInputChange} 
+        onChange={onInputChange}
       />
     </>
-    );
-  };
+  );
+};
 
+const List = ({ list }) =>
+  list.map(item => <Item key={item.objectID} item={item} />);
 
-const List = props => 
-  props.list.map(item => (
-      <div key={item.objectID}>
-        <span>
-          <a target="_blank" rel="noopener noreferrer" href={item.url}>{item.title}</a>
-        </span>
-        <br /><span>{item.author} </span>
-        <br /><span>Comments: {item.num_comments} </span>
-        <br /><span>Points: {item.points} </span>
-        <br />
-        <br />
-      </div>
-  ));
+const Item = ({ item }) => (
+  <div>
+    <span>
+      <a href={item.url}>{item.title}</a>
+    </span>
+    <span>{item.author}</span>
+    <span>{item.num_comments}</span>
+    <span>{item.points}</span>
+  </div>
+);
 
 export default App;
