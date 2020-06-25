@@ -39,31 +39,50 @@ const useSemiPersistentState = (key, initialState) => {
   return [value, setValue];
 };
 
+const storiesReducer = (state, action) => {
+  if (action.type === 'SET_STORIES') {
+    return action.payload;
+  } else {
+    throw new Error();
+  }
+};
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState(
     'search',
     'React'
   );
 
-  const [stories, setStories] = React.useState([]);
+  const [stories, dispatchStories] = React.useReducer(
+    storiesReducer,
+    []
+  );
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
 
   React.useEffect(() => {
     setIsLoading(true);
 
-    getAsyncStories().then(result => {
-      setStories(result.data.stories);
+    getAsyncStories()
+      .then(result => {
+        dispatchStories({
+          type: 'SET_STORIES',
+          payload: result.data.stories,
+        });
       setIsLoading(false);
     })
     .catch(() => setIsError(true));
   }, []);
 
   const handleRemoveStory = item => {
+    dispatchStories({
+      type: 'SET_STORIES',
+      payload: newStories,
+    });
     const newStories = stories.filter(
       story => item.objectID !== story.objectID
     );
-    setStories(newStories);
   };
 
   const handleSearch = event => {
