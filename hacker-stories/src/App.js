@@ -114,9 +114,11 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.filter(story =>
+  const searchedStories = stories.data.filter(story =>
     story.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+
 
   return (
     <div>
@@ -133,9 +135,9 @@ const App = () => {
 
       <hr />
 
-      {isError && <p>Something went wrong...</p>}
+      {stories.isError && <p>Something went wrong...</p>}
 
-      {isLoading ? (
+      {stories.isLoading ? (
         <p>Loading...</p>
 
       ): (
